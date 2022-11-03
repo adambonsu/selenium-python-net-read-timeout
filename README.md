@@ -1,6 +1,69 @@
-# Activity
+# Python - Local Client - 5 second delay between session calls - TimeoutException: Message: timeout: Timed out receiving message from renderer
 
-## 20221102@1200: Can recreate the chromdriver timeout issue
+
+## Issue Description:
+Using Python Binding for chromedriver (Local Client), navigate to a url ('https://google.com'), wait 5 seconds, then attempt to navigate to a different url ('https://example.com) =>TimeoutException: Message: timeout: Timed out receiving message from renderer
+Expected an attempt to navigate to a different url successfully loads that webpage
+
+
+## Steps to reproduce (if relevant, you MUST provide a simplified html page or link to public site):
+
+### Test Repo
+https://github.com/adambonsu/selenium-python-net-read-timeout
+
+### Set up test environment:
+```
+brew install openssl readline sqlite3 xz zlib
+curl https://pyenv.run | bash
+pyenv install 3.11.0
+pyenv global 3.11.0
+python -m test
+pip install selenium
+pip install webdriver-manager
+```
+
+### Execute Test:
+* Loads a chrome browser and visits google.com
+* Delay of 5 seconds (by default) between url calls
+* Attempts to visit example.com => TimeoutException
+```
+python test_selenium_chrome.py
+```
+
+### Environment:
+* Browser: Chrome Version 107.0.5304.87
+* Chromedriver: ChromeDriver 107.0.5304.62 (1eec40d3a5764881c92085aaee66d25075c159aa-refs/branch-heads/5304@{#942})
+* Language Bindings: Python
+* Python: 3.11.0
+* OS: macOS Monterey version 12.5
+  - Processor 2.9 GHz Quad-Core Intel Core i7
+  - Memory 16GB 2133 MHz LPDDR3
+  - Graphics Intel HD Graphics 630 1536 MB
+
+
+### Short, Self Contained, Correct (Compilable), Example
+test_selenium_chrome.py
+```
+from selenium import webdriver
+import time
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+
+driver = webdriver.Chrome(ChromeDriverManager().install())
+
+driver.get("https://google.com")
+time.sleep(5)
+driver.get("https://example.com")
+driver.quit()
+```
+
+
+
+
+## Chromedriver log:
 ```
 C02W63XEHTD6:selenium-python-net-read-timeout adambons$ python test_selenium_chrome.py 
 /Users/adambons/Documents/workspace/itv/selenium-python-net-read-timeout/test_selenium_chrome.py:6: DeprecationWarning: executable_path has been deprecated, please pass in a Service object
