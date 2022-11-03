@@ -6,6 +6,7 @@ pyenv install 3.11.0
 pyenv global 3.11.0
 python -m test
 pip install selenium
+pip install webdriver-manager
 ```
 
 ## Execute Selenium test script
